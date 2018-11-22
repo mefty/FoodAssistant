@@ -16,16 +16,18 @@ public class UseGorgiasPrologFromJava {
 					Map<String, Term> result = q.next();
 					String food = result.get("X").toString();
 					System.out.println("You will cook: " +food);
+					System.out.println("------------------------");
 					Term delta = result.get("Delta");
 					String deltaRulesExplanation = iterateDelta(delta);
-					System.out.println("Because:\n" + deltaRulesExplanation);
-					System.out.println();
+					System.out.print("Because:\n" + deltaRulesExplanation);
+					System.out.print("==================================\n");
 				}
 			} else {
 				System.out.print("Query has no Solution");
 
 			}
 		}
+		System.out.println();
 	}
 
 	private final static HashMap<String, String> deltaRulesExplanation = new HashMap<String, String>();
@@ -62,14 +64,14 @@ public class UseGorgiasPrologFromJava {
 			for (Term rule : delta.toTermArray()) {
 				String ruleName = rule.toString().split("\\(")[0];
 				if (deltaRulesExplanation.containsKey(ruleName)) {
-					deltaExplanation.append(deltaRulesExplanation.get(ruleName) + "\r\n");
+					deltaExplanation.append(deltaRulesExplanation.get(ruleName) + "\n");
 				}
 			}
 		return deltaExplanation.toString();
 	}
 
 	public static void main(String[] args) {
-		if (args.length == 1)
+		if (args.length >0)
 			executeGorgias(args[0]);
 	}
 }

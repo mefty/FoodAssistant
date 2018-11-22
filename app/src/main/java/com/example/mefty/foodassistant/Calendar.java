@@ -8,31 +8,33 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Calendar extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+        CalendarView myCalendar = (CalendarView) findViewById(R.id.calendar);
+        myCalendar.setOnDateChangeListener(myCalendarListener);
     }
 
-
-
     CalendarView.OnDateChangeListener myCalendarListener = new CalendarView.OnDateChangeListener() {
-
         public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-
-            // add one because month starts at 0
-            month = month + 1;
-            // output to log cat **not sure how to format year to two places here**
-            MainActivity.obj.dateS = year + "-" + month + "-" + day;
-            Log.d("NEW_DATE", MainActivity.obj.dateS);
+            Date d=new Date();
+            d.setMonth(month);
+            d.setYear(year);
+            d.setDate(day-1);
+            Obj o=MainActivity.obj;
+            o.day=day;
+            o.month=month+1;
+            o.year=year;
+            o.dateName= new SimpleDateFormat("EEEE",Locale.getDefault()).format(d).toLowerCase();
         }
     };
     public void callFinalView(View view) {
-
-
-        CalendarView myCalendar = (CalendarView) findViewById(R.id.calendarView2);
-        myCalendar.setOnDateChangeListener(myCalendarListener);
         Intent intent = new Intent(this, FinalView.class);
         finish();
         startActivity(intent);

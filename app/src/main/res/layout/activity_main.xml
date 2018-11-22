@@ -90,16 +90,17 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/btnToday"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:onClick="callFinalView"
                     android:text="TODAY"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btnChooseDay"
                     android:layout_width="wrap_content"
                     android:layout_height="100dp"
                     android:layout_weight="1"

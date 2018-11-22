@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     static Obj obj=new Obj();
+
     EditText e;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -17,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void callFinalView(View view){
-
         e=(EditText)findViewById(R.id.nametxt);
         obj.name= e.getText().toString();
         e=(EditText)findViewById(R.id.emailtxt);

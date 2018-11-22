@@ -1,6 +1,5 @@
 package com.example.mefty.foodassistant;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -9,14 +8,20 @@ public class Obj {
     String name;
     String email;
     boolean meatAllergy;
-    boolean moluscsallergy;
+    boolean molluscsAllergy;
     double moneyPP;
-    Date date;
-    String dateS;//mak en pio efkolo gia to today
+    int day;
+    int month;
+    int year;
+    String dateName;
     public Obj(){
         meatAllergy=false;
-        moluscsallergy=false;
+        molluscsAllergy =false;
         moneyPP=0;
-        dateS = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        Date d=new Date();
+        day=d.getDate();
+        month=d.getMonth()+1;
+        year=d.getYear()+1900;
+        dateName=new SimpleDateFormat("EEEE",Locale.getDefault()).format(d).toLowerCase();
     }
 }
