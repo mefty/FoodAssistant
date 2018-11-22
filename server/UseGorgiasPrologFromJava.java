@@ -15,15 +15,15 @@ public class UseGorgiasPrologFromJava {
 				while (q.hasNext()) {
 					Map<String, Term> result = q.next();
 					String food = result.get("X").toString();
-					System.out.println("You will cook: " +food);
-					System.out.println("------------------------");
+					System.out.print("You will cook: " +food+"\r\n");
+					System.out.print("------------------------\r\n");
 					Term delta = result.get("Delta");
 					String deltaRulesExplanation = iterateDelta(delta);
-					System.out.print("Because:\n" + deltaRulesExplanation);
-					System.out.print("==================================\n");
+					System.out.print("Because:\r\n" + deltaRulesExplanation);
+					System.out.print("==================================\r\n");
 				}
 			} else {
-				System.out.print("Query has no Solution");
+				System.out.print("Query has no Solution\r\n");
 
 			}
 		}
@@ -64,7 +64,7 @@ public class UseGorgiasPrologFromJava {
 			for (Term rule : delta.toTermArray()) {
 				String ruleName = rule.toString().split("\\(")[0];
 				if (deltaRulesExplanation.containsKey(ruleName)) {
-					deltaExplanation.append(deltaRulesExplanation.get(ruleName) + "\n");
+					deltaExplanation.append(deltaRulesExplanation.get(ruleName) + "\r\n");
 				}
 			}
 		return deltaExplanation.toString();

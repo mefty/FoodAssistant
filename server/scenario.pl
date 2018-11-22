@@ -1,6 +1,6 @@
 :-consult('./environment.pl').
-money().
-day().
-month().
-year().
-nameday().
+money(117771).
+day(23).
+month(11).
+year(2018).
+nameday(friday).

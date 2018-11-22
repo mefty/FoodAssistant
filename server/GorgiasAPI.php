@@ -39,7 +39,36 @@ if(isset($_REQUEST['action'])){
 		fwrite($myfile,$newOutput);
 		fclose($myfile);
 		if($_REQUEST['mailing']=="mail"){
-			mail("$email","FoodAssistant for ".$dateName.", ".$day."/".$month."/".$year,$newOutput);
+			require_once('phpmailer/src/PHPMailer.php');
+			require_once("phpmailer/src/SMTP.php");
+			require_once("phpmailer/src/OAuth.php");
+			require_once("phpmailer/src/Exception.php");
+			require_once("phpmailer/src/POP3.php");
+			$mail = new PHPMailer\PHPMailer\PHPMailer();
+			$mail->isSMTP();
+			
+			$mail->CharSet="UTF-8";
+			$mail->Host = "smtp.gmail.com";
+			$mail->SMTPDebug = 1; 
+			$mail->Port = 465;
+			
+			$mail->SMTPSecure='ssl';
+			$mail->SMTPAuth=true;
+			$mail->isHTML(true);
+			
+			$mail->Username = 'foodassistant2018@gmail.com';
+			$mail->Password = 'food2018';
+			
+			$mail->setFrom("foodassistant2018@gmail.com");
+			$mail->AddAddress($email);
+			$mail->Subject = "FoodAssistant for ".$dateName.", ".$day."/".$month."/".$year;
+			$mail->Body = $newOutput;
+			
+			if(!$mail->Send()) {
+				echo "Mailer Error: " . $mail->ErrorInfo;
+			} else {
+				echo "Message has been sent";
+			}
 		}
 	}
 }

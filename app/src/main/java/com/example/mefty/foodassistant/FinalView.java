@@ -6,28 +6,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
-public class FinalView extends AppCompatActivity {
+public class FinalView extends AppCompatActivity implements Runnable{
+    boolean mail;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_final_view);
-    }
     private String callGorgias(boolean mail) {
         Obj o=MainActivity.obj;
         Double m=Double.parseDouble(((EditText)findViewById(R.id.txtMoney)).getText().toString());
@@ -92,13 +86,33 @@ public class FinalView extends AppCompatActivity {
         }
         return null;
     }
+
+    @Override
+    public void run() {
+        String answer=callGorgias(mail);
+        TextView t = (TextView) findViewById(R.id.txtDelta);
+        try {
+            t.setText(answer.split("=")[0]);
+        }catch(Exception e){
+        }
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_final_view);
+    }
+
     public void sendMail(View view) {
-        String answer=callGorgias(true);
+        mail=true;
+        Thread thread=new Thread(this);
+        thread.start();
+        Toast toast= Toast.makeText(getApplicationContext(),"E-mail sent.",Toast.LENGTH_SHORT);
+        toast.show();
     }
     public void writeAnswer(View view) {
-        String answer=callGorgias(false);
-        System.out.println(answer);
-        //TODO write answer.
+        mail=false;
+        Thread thread=new Thread(this);
+        thread.start();
     }
     public void exit(View view) {
         finish();
