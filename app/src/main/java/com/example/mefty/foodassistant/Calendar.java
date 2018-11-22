@@ -14,6 +14,7 @@ public class Calendar extends AppCompatActivity {
 
     public void callFinalView(View view) {
         Intent intent = new Intent(this, FinalView.class);
+        finish();
         startActivity(intent);
     }
 

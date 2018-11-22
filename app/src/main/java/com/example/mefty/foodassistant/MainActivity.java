@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    static Obj obj=new Obj();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -15,7 +16,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void callCalendar(View view) {
+
         Intent intent = new Intent(this, Calendar.class);
+        finish();
         startActivity(intent);
     }
     public void exit(View view) {
