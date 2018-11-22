@@ -97,7 +97,8 @@
                     android:text="Procceed"
                     android:textAlignment="center"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:onClick="callCalendar"/>
 
                 <Button
                     android:id="@+id/button4"
@@ -107,7 +108,8 @@
                     android:text="Exit"
                     android:textAlignment="center"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:onClick="exit"/>
             </LinearLayout>
 
         </LinearLayout>
