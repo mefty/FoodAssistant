@@ -21,8 +21,10 @@ import java.net.URL;
 
 public class FinalView extends AppCompatActivity implements Runnable{
     boolean mail;
-
+    String answers[];
+    int counter;
     private String callGorgias(boolean mail) {
+        counter=0;
         Obj o=MainActivity.obj;
         Double m=Double.parseDouble(((EditText)findViewById(R.id.txtMoney)).getText().toString());
         int p=Integer.parseInt(((EditText)findViewById(R.id.txtPeople)).getText().toString());
@@ -32,14 +34,16 @@ public class FinalView extends AppCompatActivity implements Runnable{
         OutputStream os = null;
         InputStream is = null;
         HttpURLConnection conn = null;
+        //String hostname="DESKTOP-GL6HQR2";
+        String hostname="10.16.22.16";
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             URL url;
             if(mail==true)
-                url = new URL("http://DESKTOP-GL6HQR2/gorgias/GorgiasAPI.php?action=executeJava&mailing=mail");
+                url = new URL("http://"+hostname+"/gorgias/GorgiasAPI.php?action=executeJava&mailing=mail");
             else
-                url = new URL("http://DESKTOP-GL6HQR2/gorgias/GorgiasAPI.php?action=executeJava");
+                url = new URL("http://"+hostname+"/gorgias/GorgiasAPI.php?action=executeJava&mailing=none");
 
             JSONObject json = new JSONObject();
             json.put("name", o.name);
@@ -80,7 +84,7 @@ public class FinalView extends AppCompatActivity implements Runnable{
             is.close();
             conn.disconnect();
 
-            return sb.toString();
+            return sb.toString().replace('#','\n').replace('|','=');
         } catch (Exception e) {
             System.err.println("Connection error: " +e.getMessage());
         }
@@ -92,7 +96,8 @@ public class FinalView extends AppCompatActivity implements Runnable{
         String answer=callGorgias(mail);
         TextView t = (TextView) findViewById(R.id.txtDelta);
         try {
-            t.setText(answer.split("=")[0]);
+            answers=answer.split("=");
+            t.setText(answers[0]);
         }catch(Exception e){
         }
     }
@@ -101,7 +106,20 @@ public class FinalView extends AppCompatActivity implements Runnable{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_view);
     }
-
+    public void nextAnswer(View view) {
+        do{
+            counter++;
+            if(counter==answers.length)
+                break;
+        }while(answers[counter].isEmpty());
+        TextView t = (TextView) findViewById(R.id.txtDelta);
+        if(counter<answers.length)
+            t.setText(answers[counter]);
+        else{
+            t.setText("No more answers.");
+            counter=-1;
+        }
+    }
     public void sendMail(View view) {
         mail=true;
         Thread thread=new Thread(this);

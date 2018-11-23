@@ -1,35 +1,44 @@
-Dear name,
+Dear Kwloterorista,
 
-I'm sending you this e-mail to inform you about the food you are about to cook on friday, 23/11/2018:
+I'm sending you this e-mail to inform you about the food you are about to cook on tuesday, 25/12/2018:
 
-You will cook: legumes
-
+You will cook: molluscs
 ------------------------
-
 Because:
-
-if it is fasting period you should make legumes.
-
+if its a special occasion and you are allergic to meat do mollusks.
+always prefer the cheapest if it is not a special occasion.
+allergyMeat,not(allergyMolluscs).
 ==================================
 
-You will cook: legumes
-
+You will cook: molluscs
 ------------------------
-
 Because:
-
-if it is fasting period you should make legumes.
-
+always prefer the cheapest if it is not a special occasion.
+if its a special occasion and you are allergic to meat do mollusks.
+allergyMeat,not(allergyMolluscs).
 ==================================
 
-You will cook: legumes
-
+You will cook: molluscs
 ------------------------
-
 Because:
+if its a special occasion and you are allergic to meat do mollusks.
+allergyMeat,not(allergyMolluscs).
+==================================
 
-if it is fasting period you should make legumes.
+You will cook: molluscs
+------------------------
+Because:
+always prefer the cheapest if it is not a special occasion.
+if its a special occasion and you are allergic to meat do mollusks.
+allergyMeat,not(allergyMolluscs).
+==================================
 
+You will cook: molluscs
+------------------------
+Because:
+if its a special occasion and you are allergic to meat do mollusks.
+always prefer the cheapest if it is not a special occasion.
+allergyMeat,not(allergyMolluscs).
 ==================================
 
 

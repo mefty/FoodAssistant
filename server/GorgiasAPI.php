@@ -30,6 +30,8 @@ if(isset($_REQUEST['action'])){
 		$command="java -jar gorgias.jar ".escapeshellarg($gorgiasFile);
 		$output= shell_exec(escapeshellcmd($command));
 		echo $output;
+		$output = str_replace('#',"\n", $output);
+		$output = str_replace('|',"\n", $output);
 		
 		$outputFile='./output.txt';
 		$myfile = fopen($outputFile, "w");
@@ -62,7 +64,7 @@ if(isset($_REQUEST['action'])){
 			$mail->setFrom("foodassistant2018@gmail.com");
 			$mail->AddAddress($email);
 			$mail->Subject = "FoodAssistant for ".$dateName.", ".$day."/".$month."/".$year;
-			$mail->Body = $newOutput;
+			$mail->Body = nl2br($newOutput);
 			
 			if(!$mail->Send()) {
 				echo "Mailer Error: " . $mail->ErrorInfo;
