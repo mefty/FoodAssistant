@@ -1,44 +1,44 @@
-Dear Kwloterorista,
+Dear jdjdjd,
 
 I'm sending you this e-mail to inform you about the food you are about to cook on tuesday, 25/12/2018:
 
-You will cook: molluscs
+You will cook: meat
 ------------------------
 Because:
-if its a special occasion and you are allergic to meat do mollusks.
-always prefer the cheapest if it is not a special occasion.
-allergyMeat,not(allergyMolluscs).
+you dont have money so prefer to cook the cheaper 'regular' meat than souvla.
+always we go with the cheaper meal if we dont have money.
+On a simple day you cook something with meat.
 ==================================
 
-You will cook: molluscs
+You will cook: meat
 ------------------------
 Because:
-always prefer the cheapest if it is not a special occasion.
-if its a special occasion and you are allergic to meat do mollusks.
-allergyMeat,not(allergyMolluscs).
+always we go with the cheaper meal if we dont have money.
+you dont have money so prefer to cook the cheaper 'regular' meat than souvla.
+On a simple day you cook something with meat.
 ==================================
 
-You will cook: molluscs
+You will cook: meat
 ------------------------
 Because:
-if its a special occasion and you are allergic to meat do mollusks.
-allergyMeat,not(allergyMolluscs).
+you dont have money so prefer to cook the cheaper 'regular' meat than souvla.
+On a simple day you cook something with meat.
 ==================================
 
-You will cook: molluscs
+You will cook: meat
 ------------------------
 Because:
-always prefer the cheapest if it is not a special occasion.
-if its a special occasion and you are allergic to meat do mollusks.
-allergyMeat,not(allergyMolluscs).
+always we go with the cheaper meal if we dont have money.
+you dont have money so prefer to cook the cheaper 'regular' meat than souvla.
+On a simple day you cook something with meat.
 ==================================
 
-You will cook: molluscs
+You will cook: meat
 ------------------------
 Because:
-if its a special occasion and you are allergic to meat do mollusks.
-always prefer the cheapest if it is not a special occasion.
-allergyMeat,not(allergyMolluscs).
+you dont have money so prefer to cook the cheaper 'regular' meat than souvla.
+always we go with the cheaper meal if we dont have money.
+On a simple day you cook something with meat.
 ==================================
 
 

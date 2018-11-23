@@ -32,30 +32,30 @@ public class UseGorgiasPrologFromJava {
 
 	private final static HashMap<String, String> deltaRulesExplanation = new HashMap<String, String>();
 	static {		
-		deltaRulesExplanation.put("r1","Normally you cook meat.");
-		deltaRulesExplanation.put("r2","It is a special occasion so you can cook souvla.");
-		deltaRulesExplanation.put("r3","if it is fasting period you should make legumes.");
-		deltaRulesExplanation.put("r4","if it is fasting period AND a special occasion you can cook molluscs.");
-		deltaRulesExplanation.put("r5","allergyMeat.");
-		deltaRulesExplanation.put("r6","allergyMeat,not(allergyMolluscs).");
+		deltaRulesExplanation.put("r1","On a simple day you cook something with meat.");
+		deltaRulesExplanation.put("r2","Something special is on this day.");
+		deltaRulesExplanation.put("r3","The day is in fasting period.");
+		deltaRulesExplanation.put("r4","The day is in fasting period and is also a special day.");
+		deltaRulesExplanation.put("r5","Because someone has an allergy on meat.");
+		deltaRulesExplanation.put("r6","Because someone has an allergy on meat but not on molluscs.");
 
-		deltaRulesExplanation.put("pr0","when you can cook souvla than regular meat , prefer souvla.");
-		deltaRulesExplanation.put("pr1","if you dont have money prefer to cook the cheaper 'regular' meat than souvla.");
-		deltaRulesExplanation.put("pr2","always prefer to satisfy the pr1 than pr0(if the noMoney predicate is true, else go with the pr0).");
+		deltaRulesExplanation.put("pr0","When you can, cook souvla rather than regular meat.");
+		deltaRulesExplanation.put("pr1","You dont have a lot of money, so prefer to cook the cheaper 'regular' meat, rather than souvla.");
+		deltaRulesExplanation.put("pr2","Always cook the cheaper meal if you dont have a lot of money.");
 
-		deltaRulesExplanation.put("pr4","prefer to cook legumes than meat because if you have both options it means that is fasting period.");
-		deltaRulesExplanation.put("pr3","if you can cook mollusks and souvla , prefer mollusks because it means is a fasting period.");
+		deltaRulesExplanation.put("pr4","It is probably fasting period.");
+		deltaRulesExplanation.put("pr3","It is probably fasting period.");
 
-		deltaRulesExplanation.put("pr5","if you can cook legumes and mollusks prefer mollusks, they are better :p");
-		deltaRulesExplanation.put("pr6","if you dont have money for mollusks, go back to the legumes.");
+		deltaRulesExplanation.put("pr5","You can cook legumes and mollusks, so prefer mollusks, because they are better ;).");
+		deltaRulesExplanation.put("pr6","You dont have a lot of money for mollusks, so prefer legumes :(.");
 
-		deltaRulesExplanation.put("pr7","always prefer to check your money than cook mollusks without money,if you have money you will cook mollusks.");
+		deltaRulesExplanation.put("pr7","If you have enough money, you can cook mollusks.");
 
-		deltaRulesExplanation.put("pr8","if you can cook legumes and mollusks prefer mollusks prefer legumes if you have an allergy and is not a special occasion.");
-		deltaRulesExplanation.put("pr9","if its a special occasion and you are allergic to meat do mollusks.");
+		deltaRulesExplanation.put("pr8","You can cook legumes and mollusks, so prefer legumes if you have an allergy and it is not a special occasion.");
+		deltaRulesExplanation.put("pr9","If it is a special occasion and you are allergic to meat, cook mollusks.");
 
-		deltaRulesExplanation.put("pr10","always prefer the cheapest if it is not a special occasion.");
-		deltaRulesExplanation.put("pr11","if you can do legumes and souvla and its fasting prefer legumes.");
+		deltaRulesExplanation.put("pr10","Always prefer the cheapest if it is not a special occasion.");
+		deltaRulesExplanation.put("pr11","You can cook legumes and souvla but it is fasting period, so prefer legumes.");
 	}
 
 	public static String iterateDelta(Term delta) {

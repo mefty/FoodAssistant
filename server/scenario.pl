@@ -1,6 +1,5 @@
 :-consult('./environment.pl').
-allergyMeat.
-money(100).
+money(0).
 day(25).
 month(12).
 year(2018).

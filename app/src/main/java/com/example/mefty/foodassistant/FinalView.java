@@ -121,6 +121,10 @@ public class FinalView extends AppCompatActivity implements Runnable{
         }
     }
     public void sendMail(View view) {
+        if (prevent()) {
+            toasthamcheese();
+            return;
+        }
         mail=true;
         Thread thread=new Thread(this);
         thread.start();
@@ -128,6 +132,10 @@ public class FinalView extends AppCompatActivity implements Runnable{
         toast.show();
     }
     public void writeAnswer(View view) {
+       if (prevent()) {
+           toasthamcheese();
+           return;
+       }
         mail=false;
         Thread thread=new Thread(this);
         thread.start();
@@ -136,4 +144,19 @@ public class FinalView extends AppCompatActivity implements Runnable{
         finish();
         System.exit(0);
     }
+
+    public boolean prevent(){
+        EditText e=(EditText)findViewById(R.id.txtMoney);
+        if (e.getText().toString().isEmpty())
+            return true;
+        e=(EditText)findViewById(R.id.txtPeople);
+        if (e.getText().toString().isEmpty())
+            return true ;
+        return false;
+    }
+    public void toasthamcheese(){
+        Toast toast= Toast.makeText(getApplicationContext(),"Fill the text fields you bitch",Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
 }
