@@ -1,44 +1,29 @@
-Dear jdjdjd,
+Dear g,
 
-I'm sending you this e-mail to inform you about the food you are about to cook on tuesday, 25/12/2018:
+I'm sending you this e-mail to inform you about the food you are about to cook on wednesday, 28/11/2018:
 
-You will cook: meat
+You will cook: legumes
 ------------------------
 Because:
-you dont have money so prefer to cook the cheaper 'regular' meat than souvla.
-always we go with the cheaper meal if we dont have money.
-On a simple day you cook something with meat.
+The day is in fasting period.
 ==================================
 
-You will cook: meat
+You will cook: legumes
 ------------------------
 Because:
-always we go with the cheaper meal if we dont have money.
-you dont have money so prefer to cook the cheaper 'regular' meat than souvla.
-On a simple day you cook something with meat.
+The day is in fasting period.
 ==================================
 
-You will cook: meat
+You will cook: legumes
 ------------------------
 Because:
-you dont have money so prefer to cook the cheaper 'regular' meat than souvla.
-On a simple day you cook something with meat.
+The day is in fasting period.
 ==================================
 
-You will cook: meat
+You will cook: legumes
 ------------------------
 Because:
-always we go with the cheaper meal if we dont have money.
-you dont have money so prefer to cook the cheaper 'regular' meat than souvla.
-On a simple day you cook something with meat.
-==================================
-
-You will cook: meat
-------------------------
-Because:
-you dont have money so prefer to cook the cheaper 'regular' meat than souvla.
-always we go with the cheaper meal if we dont have money.
-On a simple day you cook something with meat.
+Because someone has an allergy on meat.
 ==================================
 
 

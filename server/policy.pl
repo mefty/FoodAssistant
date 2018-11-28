@@ -44,30 +44,36 @@ complement(cook(Day,legumes),cook(Day,souvla)).
 complement(cook(Day,souvla),cook(Day,legumes)).
 
 
-rule(r1(Day),cook(Day,meat),[]):-not(allergyMeat). %normally cook meat.
-rule(r2(Day),cook(Day,souvla), []):-specialOccasion,not(allergyMeat). %if it is a special occasion you can cook souvla.
-rule(r3(Day),cook(Day,legumes),[]):-fasting.  %if it is fasting period you should make legumes.
-rule(r4(Day),cook(Day,molluscs),[]):-fasting,specialOccasion,not(allergyMolluscs). %if it is fasting period AND a special occasion you can cook molluscs.
+rule(r1(Day),cook(Day,meat),[]):-not(allergyMeat). 									%normally cook meat.
+rule(r2(Day),cook(Day,souvla), []):-specialOccasion,not(allergyMeat). 				%if it is a special occasion you can cook souvla.
+rule(r3(Day),cook(Day,legumes),[]):-fasting.  										%if it is fasting period you should make legumes.
+rule(r4(Day),cook(Day,molluscs),[]):-fasting,specialOccasion,not(allergyMolluscs). 	%if it is fasting period AND a special occasion you can cook molluscs.
 rule(r5(Day),cook(Day,legumes),[]):-allergyMeat.
 rule(r6(Day),cook(Day,molluscs),[]):-allergyMeat,not(allergyMolluscs).
 
-rule(pr0(X),prefer(r2(X),r1(X)),[]). %when you can cook souvla than regular meat , prefer souvla.
-rule(pr1(X),prefer(r1(X),r2(X)),[]):-noMoney. %if you dont have money prefer to cook the cheaper 'regular' meat than souvla.
-rule(pr2(X),prefer(pr1(X),pr0(X)),[]). %always prefer to satisfy the pr1 than pr0(if the noMoney predicate is true, else go with the pr0).
+%%Priority rules
+rule(pr0(X),prefer(r2(X),r1(X)),[]). 			%when you can cook souvla than regular meat , prefer souvla.
+rule(pr1(X),prefer(r1(X),r2(X)),[]):-noMoney. 	%if you dont have money prefer to cook the cheaper 'regular' meat than souvla.
 
-rule(pr4(X),prefer(r3(X),r1(X)),[]).%prefer to cook legumes than meat because if you have both options it means that is fasting period.
-rule(pr3(X),prefer(r4(X),r2(X)),[]).%if you can cook mollusks and souvla , prefer mollusks because it means is a fasting period.
+rule(pr4(X),prefer(r3(X),r1(X)),[]).			%prefer to cook legumes than meat because if you have both options it means that is fasting period.
 
-rule(pr5(X),prefer(r4(X),r3(X)),[]).%if you can cook legumes and mollusks prefer mollusks, they are better :p
-rule(pr6(X),prefer(r3(X),r4(X)),[]):-noMoney.%if you dont have money for mollusks, go back to the legumes.
+rule(pr3(X),prefer(r4(X),r2(X)),[]).			%if you can cook mollusks and souvla , prefer mollusks because it means is a fasting period.
 
-rule(pr7(X),prefer(pr6(X),pr5(X)),[]).%always prefer to check your money than cook mollusks without money,if you have money you will cook mollusks.
+rule(pr5(X),prefer(r4(X),r3(X)),[]).			%if you can cook legumes and mollusks prefer mollusks, they are better :p
+rule(pr6(X),prefer(r3(X),r4(X)),[]):-noMoney.	%if you dont have money for mollusks, go back to the legumes.
 
-rule(pr8(X),prefer(r5(X),r6(X)),[]).%if you can cook legumes and mollusks prefer mollusks prefer legumes if you have an allergy and is not a special occasion.
-rule(pr9(X),prefer(r6(X),r5(X)),[]):-specialOccasion.%if its a special occasion and you are allergic to meat do mollusks.
+rule(pr8(X),prefer(r5(X),r6(X)),[]).					%if you can cook legumes and mollusks prefer mollusks prefer legumes if you have an allergy and is not a special occasion.
+rule(pr9(X),prefer(r6(X),r5(X)),[]):-specialOccasion.	%if its a special occasion and you are allergic to meat do mollusks.
 
-rule(pr10(X),prefer(pr9(X),pr8(X)),[]).%always prefer the cheapest if it is not a special occasion.
-rule(pr11(X),prefer(r3(X),r2(X)),[]).%if you can do legumes and souvla and its fasting prefer legumes.
+rule(pr11(X),prefer(r3(X),r2(X)),[]).					%if you can do legumes and souvla and its fasting prefer legumes.
 
+%Extra Priority rules
+rule(c1(X),prefer(pr1(X),pr0(X)),[]). 			%pr2	%always prefer to satisfy the pr1 than pr0(if the noMoney predicate is true, else go with the pr0).
 
+rule(c2(X),prefer(pr6(X),pr5(X)),[]).			%pr7	%always prefer to check your money than cook mollusks without money,if you have money you will cook mollusks.
 
+rule(c3(X),prefer(pr9(X),pr8(X)),[]).			%pr10 	%always prefer the cheapest if it is not a special occasion.
+rule(c4(X),prefer(pr8(X),pr9(X)),[]):- noMoney. %pr12	%If you don't have money, don't care about the special occasion.
+
+%XXL Priority rules.
+rule(d1(X),prefer(c4(X),c3(X)),[]).		%always prefer the cheapest if it is not a special occasion.
