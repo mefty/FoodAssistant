@@ -9,7 +9,7 @@ public class UseGorgiasPrologFromJava {
 		String prologQuery = "consult('" + filename + "').";
 		Query q = new Query(prologQuery);
 		if (q.hasNext()) {
-			prologQuery = "prove([cook(friday,X)],Delta).";
+			prologQuery = "prove([cook(X)],Delta).";
 			q = new Query(prologQuery);
 			if (q.hasSolution()) {
 				while (q.hasNext()) {
@@ -33,15 +33,13 @@ public class UseGorgiasPrologFromJava {
 	private final static HashMap<String, String> deltaRulesExplanation = new HashMap<String, String>();
 	static {		
 		deltaRulesExplanation.put("r1","On a simple day you cook something with meat.");
-		deltaRulesExplanation.put("r2","Something special is on this day.");
-		deltaRulesExplanation.put("r3","The day is in fasting period.");
-		deltaRulesExplanation.put("r4","The day is in fasting period and is also a special day.");
-		deltaRulesExplanation.put("r5","Because someone has an allergy on meat.");
-		deltaRulesExplanation.put("r6","Because someone has an allergy on meat but not on molluscs.");
+		deltaRulesExplanation.put("r2","Your day is a special one.");
+		deltaRulesExplanation.put("r3","On a simple day you can also cook legumes.");
+		deltaRulesExplanation.put("r4","Your day is a special one.");
 
-		deltaRulesExplanation.put("pr0","When you can, cook souvla rather than regular meat.");
-		deltaRulesExplanation.put("pr1","You dont have a lot of money, so prefer to cook the cheaper 'regular' meat, rather than souvla.");
-		deltaRulesExplanation.put("pr2","Always cook the cheaper meal if you dont have a lot of money.");
+		deltaRulesExplanation.put("pr5","If you have allergy on molluscs prefer legumes.");
+		deltaRulesExplanation.put("pr6","You prefer legumes because you want to avoid meat");
+		deltaRulesExplanation.put("pr7","You prefer legumes because you want to avoid meat.");
 
 		deltaRulesExplanation.put("pr4","It is probably fasting period.");
 		deltaRulesExplanation.put("pr3","It is probably fasting period.");

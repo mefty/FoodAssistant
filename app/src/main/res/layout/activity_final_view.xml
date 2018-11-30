@@ -36,7 +36,7 @@
             <TextView
                 android:id="@+id/lblpeople"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Number Of People"
@@ -86,14 +86,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/lblmeat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Allergy on meat?"
                 android:textAlignment="center"
@@ -104,7 +104,7 @@
             <CheckBox
                 android:id="@+id/chkMeat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:textAlignment="center"
                 android:textSize="18sp"
@@ -113,14 +113,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/lblmolluscs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Allergy on molluscs?"
                 android:textAlignment="center"
@@ -131,9 +131,35 @@
             <CheckBox
                 android:id="@+id/chkMolluscs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/lblWantMeat"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Do you want something with meat?"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <CheckBox
+                android:id="@+id/chkWantMeat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout
@@ -146,7 +172,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="writeAnswer"
-                android:text="What will i eat?" />
+                android:text="What will i eat?"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/btnLucky"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="feelLucky"
+                android:text="I'm feeling lucky!"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -173,7 +209,16 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="sendMail"
-                android:text="Send Email"
+                android:text="Send E-mail"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnMoney"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="giveDetails"
+                android:text="Give Details"
                 android:visibility="gone" />
 
             <Button
@@ -182,7 +227,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="exit"
-                android:text="Abort" />
+                android:text="Exit"
+                android:visibility="visible" />
 
         </LinearLayout>
 

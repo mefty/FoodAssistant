@@ -10,37 +10,39 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.ContentHandler;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FinalView extends AppCompatActivity implements Runnable{
     boolean mail;
     String answers[];
     int counter;
-    boolean twoAnswers=false;
-    boolean money=false;
+    Set<String> answerSet;
+    boolean gotOneAnswer=false;
 
     private String callGorgias(boolean mail) throws Exception {
         counter=0;
         Obj o=MainActivity.obj;
-        if (findViewById(R.id.lblpeople).getVisibility()==View.VISIBLE) {
+        if (o.fin==true) {
             Double m = Double.parseDouble(((EditText) findViewById(R.id.txtMoney)).getText().toString());
             int p = Integer.parseInt(((EditText) findViewById(R.id.txtPeople)).getText().toString());
             o.moneyPP=m/p;
-        }else
-            o.moneyPP=0.0;
+        }
 
         o.meatAllergy=((CheckBox)findViewById(R.id.chkMeat)).isChecked();
         o.molluscsAllergy=((CheckBox)findViewById(R.id.chkMolluscs)).isChecked();
+        o.wantMeat=((CheckBox)findViewById(R.id.chkWantMeat)).isChecked();
         OutputStream os = null;
         InputStream is = null;
         HttpURLConnection conn = null;
@@ -65,6 +67,8 @@ public class FinalView extends AppCompatActivity implements Runnable{
             json.put("month", o.month);
             json.put("year", o.year);
             json.put("dateName", o.dateName);
+            json.put("fin", o.fin);
+            json.put("wantMeat", o.wantMeat);
             String message = json.toString();
 
             conn = (HttpURLConnection) url.openConnection();
@@ -102,7 +106,6 @@ public class FinalView extends AppCompatActivity implements Runnable{
 
     @Override
     public void run() {
-        String firstFood=null;
         String answer;
         try {
             answer = callGorgias(mail);
@@ -120,35 +123,41 @@ public class FinalView extends AppCompatActivity implements Runnable{
             @Override
             public void run() {
                 toastHamCheese("Got answer.");
+                CheckBox c;
+                c=(CheckBox)findViewById(R.id.chkMolluscs);
+                c.setEnabled(false);
+                c=(CheckBox)findViewById(R.id.chkMeat);
+                c.setEnabled(false);
             }
         });
         answer=answer.replaceAll("=","");
         String[] array=answer.split("You will cook: ");
         answers=new String[array.length-1];
+        answerSet = new HashSet<String>();
         for(int i=1;i<array.length;i++) {
             answers[i - 1] = array[i];
-            String food=array[i].split("\n",2)[0];
-            if(firstFood==null)
-                firstFood=food;
-            else if(firstFood.compareTo(food)!=0) {
-                final String finalFirstFood = firstFood;
-                final String finalFood= food;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        twoAnswers(finalFirstFood, finalFood);
-                    }
-                });
-                return;
-            }
+            answerSet.add(array[i].split("\n",2)[0]);
+        }
+        if(answerSet.size()>1) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    manyAnswers();
+                }
+            });
+            return;
         }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 setDeltaView(0);
+                Button b;
+                b=(Button)findViewById(R.id.btnEmail);
+                b.setVisibility(View.VISIBLE);
             }
         });
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,6 +168,8 @@ public class FinalView extends AppCompatActivity implements Runnable{
         t.setText((i+1)+"/"+answers.length+"\nYou will cook: "+answers[i]);
     }
     public void nextAnswer(View view) {
+        if(gotOneAnswer!=true)
+            return;
         TextView t = (TextView) findViewById(R.id.txtDelta);
         if(++counter<answers.length)
             setDeltaView(counter);
@@ -167,26 +178,72 @@ public class FinalView extends AppCompatActivity implements Runnable{
             counter=-1;
         }
     }
-    public void sendMail(View view) {
-        if (twoAnswers && money==false)
-            makeVisible(); //TODO choose the answer and display it and after ask for email
-        else { //todo if money==true; call money.pl else gorgiasproject.pl
-            EditText e;
-            e = (EditText) findViewById(R.id.txtPeople);
-            if ((e.getVisibility() == View.VISIBLE) && prevent()) {
-                toastHamCheese("Fill the text fields");
-                return;
+    public void feelLucky(View view){
+        boolean meat=answerSet.contains("meat");
+        boolean souvla=answerSet.contains("souvla");
+        boolean legumes=answerSet.contains("legumes");
+        boolean molluscs=answerSet.contains("molluscs");
+        if((meat&&souvla) || (legumes&&molluscs)){
+            if(Math.random()>0.5) {
+                ((EditText) findViewById(R.id.txtMoney)).setText("999");
+                ((EditText) findViewById(R.id.txtPeople)).setText("1");
+            }else{
+                ((EditText) findViewById(R.id.txtMoney)).setText("1");
+                ((EditText) findViewById(R.id.txtPeople)).setText("1");
             }
-            mail = true;
-            Thread thread = new Thread(this);
-            thread.start();
-            toastHamCheese("E-mail sent.");
         }
+        if(answerSet.size()>2 || ((meat&&legumes) || (meat&&molluscs) || (souvla&&legumes) || (souvla&&molluscs))){
+            if(Math.random()>0.5)
+                ((CheckBox) findViewById(R.id.chkWantMeat)).setChecked(true);
+            else
+                ((CheckBox) findViewById(R.id.chkWantMeat)).setChecked(false);
+        }
+        MainActivity.obj.fin=true;
+        Button b;
+        b=(Button)findViewById(R.id.btnLucky);
+        b.setVisibility(View.GONE);
+        b=(Button)findViewById(R.id.btnMoney);
+        b.setVisibility(View.GONE);
+        b=(Button)findViewById(R.id.btnAnswer);
+        b.setVisibility(View.GONE);
+        writeAnswer(view);
+    }
+    public void giveDetails(View view){
+        boolean meat=answerSet.contains("meat");
+        boolean souvla=answerSet.contains("souvla");
+        boolean legumes=answerSet.contains("legumes");
+        boolean molluscs=answerSet.contains("molluscs");
+        if((meat&&souvla) || (legumes&&molluscs)){
+            makeVisible();
+        }
+        if(answerSet.size()>2 || ((meat&&legumes) || (meat&&molluscs) || (souvla&&legumes) || (souvla&&molluscs))){
+            TextView t=(TextView)findViewById(R.id.lblWantMeat);
+            CheckBox c=(CheckBox)findViewById(R.id.chkWantMeat);
+            t.setVisibility(View.VISIBLE);
+            c.setVisibility(View.VISIBLE);
+        }
+        MainActivity.obj.fin=true;
+        Button b;
+        b=(Button)findViewById(R.id.btnLucky);
+        b.setVisibility(View.GONE);
+        b=(Button)findViewById(R.id.btnMoney);
+        b.setVisibility(View.GONE);
+        b=(Button)findViewById(R.id.btnAnswer);
+        b.setVisibility(View.VISIBLE);
+    }
+    public void sendMail(View view) {
+        mail = true;
+        Thread thread = new Thread(this);
+        thread.start();
+        toastHamCheese("E-mail sent.");
+        Button b=(Button)findViewById(R.id.btnAnswer);
+        b.setVisibility(View.GONE);
+        b=(Button)findViewById(R.id.btnEmail);
+        b.setVisibility(View.GONE);
+        TextView t=(TextView)findViewById(R.id.txtDelta);
+        t.setText("Thank you!");
     }
     public void writeAnswer(View view) {
-        //if (twoAnswers && money==false)
-        //   chooseAnAnswer(); //TODO choose the answer and display it and after ask for email
-        //else{
         EditText e = (EditText) findViewById(R.id.txtPeople);
         Button b=(Button)findViewById(R.id.btnEmail);
         b.setVisibility(View.VISIBLE);
@@ -199,12 +256,27 @@ public class FinalView extends AppCompatActivity implements Runnable{
         mail = false;
         Thread thread = new Thread(this);
         thread.start();
-    //}
+        gotOneAnswer=true;
+        if(MainActivity.obj.fin==true) {
+            b = (Button) findViewById(R.id.btnAnswer);
+            b.setVisibility(View.GONE);
+            t=(TextView)findViewById(R.id.lblpeople);
+            t.setVisibility(View.GONE);
+            t=(TextView)findViewById(R.id.lblmoney);
+            t.setVisibility(View.GONE);
+            t=(TextView)findViewById(R.id.lblWantMeat);
+            t.setVisibility(View.GONE);
+            e=(EditText)findViewById(R.id.txtPeople);
+            e.setVisibility(View.GONE);
+            e=(EditText)findViewById(R.id.txtMoney);
+            e.setVisibility(View.GONE);
+            CheckBox chk=(CheckBox)findViewById(R.id.chkWantMeat);
+            chk.setVisibility(View.GONE);
+        }
     }
     public void exit(View view) {
-        twoAnswers("mef","meft");
-       //  finish();
-        // System.exit(0);
+         finish();
+         System.exit(0);
     }
 
     public boolean prevent(){
@@ -221,7 +293,6 @@ public class FinalView extends AppCompatActivity implements Runnable{
         toast.show();
     }
     public void makeVisible(){
-
         EditText e=(EditText)findViewById(R.id.txtMoney);
         e.setVisibility(View.VISIBLE);
         e=(EditText)findViewById(R.id.txtPeople);
@@ -231,8 +302,6 @@ public class FinalView extends AppCompatActivity implements Runnable{
         p=(TextView)findViewById((R.id.lblmoney));
         p.setVisibility(View.VISIBLE);
 
-        twoAnswers=false;
-        money=true;
         Button b=(Button) findViewById((R.id.btnAnswer));
         b.setText("What will I eat?");
         b=(Button) findViewById((R.id.btnEmail));
@@ -241,22 +310,34 @@ public class FinalView extends AppCompatActivity implements Runnable{
         t.setText("Fill the text boxes");
 
     }
-    public void twoAnswers(String answer1,String answer2){
+    public void manyAnswers(){
         TextView t = (TextView) findViewById(R.id.txtDelta);
-        t.setText("You have 2 answers for this day.\nYou either cook "+answer1 +" or "+answer2+"\nDo you wanna choose an answer based on the money you want to spend or you just feel lucky?");
-        Button b=(Button) findViewById((R.id.btnAnswer));
-        b.setText("I am feeling lucky");
+        StringBuilder sb=new StringBuilder();
+        sb.append("You have more than one answers:\n");
+        for(String s:answerSet)
+            sb.append(s+"\n");
+        sb.append("Do you want to give more details in order to decide or you just feel lucky?");
+        t.setText(sb.toString());
+
+        //**Changes buttons.**//
+        Button b;
+        b=(Button) findViewById((R.id.btnAnswer));
+        b.setVisibility(View.GONE);
         b=(Button) findViewById((R.id.btnEmail));
-        b.setText("money based");
-        twoAnswers=true;
+        b.setVisibility(View.GONE);
+        b=(Button) findViewById((R.id.btnLucky));
+        b.setVisibility(View.VISIBLE);
+        b=(Button) findViewById((R.id.btnMoney));
+        b.setVisibility(View.VISIBLE);
+        gotOneAnswer=false;
         TextView p;
         p=(TextView)findViewById((R.id.lblmeat));
-        p.setVisibility(View.INVISIBLE);
+        p.setVisibility(View.GONE);
         p=(TextView)findViewById((R.id.lblmolluscs));
-        p.setVisibility(View.INVISIBLE);
+        p.setVisibility(View.GONE);
         CheckBox q=(CheckBox) findViewById((R.id.chkMeat));
-        q.setVisibility(View.INVISIBLE);
+        q.setVisibility(View.GONE);
         q=(CheckBox) findViewById((R.id.chkMolluscs));
-        q.setVisibility(View.INVISIBLE);
+        q.setVisibility(View.GONE);
     }
 }

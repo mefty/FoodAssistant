@@ -1,5 +1,3 @@
-:-consult('./policy.pl').
-
 specialOccasion:-nameday(sunday).
 specialOccasion:-day(25),month(12).
 specialOccasion:-day(1),month(1).
@@ -15,4 +13,11 @@ fasting:-day(X),between(1,14,X),month(8).
 fasting:-day(X),between(14,30,X),month(11).
 fasting:-day(X),between(1,24,X),month(12).
 
+
+vegetarianFood:-fasting.
+vegetarianFood:-allergyMeat.
+
 noMoney:-money(X),X<10.
+
+:-consult('./policy.pl').
+

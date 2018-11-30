@@ -1,29 +1,35 @@
-Dear g,
+Dear b,
 
-I'm sending you this e-mail to inform you about the food you are about to cook on wednesday, 28/11/2018:
+I'm sending you this e-mail to inform you about the food you are about to cook on tuesday, 25/12/2018:
 
-You will cook: legumes
+You will cook: meat
 ------------------------
 Because:
-The day is in fasting period.
+On a simple day you cook something with meat.
 ==================================
 
-You will cook: legumes
+You will cook: meat
 ------------------------
 Because:
-The day is in fasting period.
+On a simple day you cook something with meat.
 ==================================
 
-You will cook: legumes
+You will cook: meat
 ------------------------
 Because:
-The day is in fasting period.
+On a simple day you cook something with meat.
 ==================================
 
-You will cook: legumes
+You will cook: meat
 ------------------------
 Because:
-Because someone has an allergy on meat.
+On a simple day you cook something with meat.
+==================================
+
+You will cook: meat
+------------------------
+Because:
+On a simple day you cook something with meat.
 ==================================
 
 

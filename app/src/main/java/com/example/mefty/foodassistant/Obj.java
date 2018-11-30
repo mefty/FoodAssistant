@@ -14,9 +14,14 @@ public class Obj {
     int month;
     int year;
     String dateName;
+    boolean wantMeat;
+    boolean fin;
+
     public Obj(){
         meatAllergy=false;
         molluscsAllergy =false;
+        wantMeat=false;
+        fin=false;
         moneyPP=0;
         Date d=new Date();
         day=d.getDate();
