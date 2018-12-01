@@ -1,4 +1,4 @@
-Dear b,
+Dear h,
 
 I'm sending you this e-mail to inform you about the food you are about to cook on tuesday, 25/12/2018:
 
@@ -8,28 +8,22 @@ Because:
 On a simple day you cook something with meat.
 ==================================
 
-You will cook: meat
+You will cook: souvla
 ------------------------
 Because:
-On a simple day you cook something with meat.
+Your day is a special one so you can cook souvla.
 ==================================
 
-You will cook: meat
+You will cook: legumes
 ------------------------
 Because:
-On a simple day you cook something with meat.
+On a simple day you can cook legumes.
 ==================================
 
-You will cook: meat
+You will cook: molluscs
 ------------------------
 Because:
-On a simple day you cook something with meat.
-==================================
-
-You will cook: meat
-------------------------
-Because:
-On a simple day you cook something with meat.
+Your day is a special one so you can cook molluscs.
 ==================================
 
 

@@ -31,6 +31,17 @@ public class FinalView extends AppCompatActivity implements Runnable{
     Set<String> answerSet;
     boolean gotOneAnswer=false;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_final_view);
+        TextView t=(TextView)findViewById(R.id.txtDetails);
+        Obj o=MainActivity.obj;
+        t.setText("Last Details for "+o.dateName+": "+o.day+"/"+o.month+"/"+o.year);
+        ((EditText) findViewById(R.id.txtPeople)).setText("1");
+        ((EditText) findViewById(R.id.txtMoney)).setText("1");
+        ((EditText) findViewById(R.id.txtPeople)).requestFocus();
+    }
     private String callGorgias(boolean mail) throws Exception {
         counter=0;
         Obj o=MainActivity.obj;
@@ -109,27 +120,17 @@ public class FinalView extends AppCompatActivity implements Runnable{
         String answer;
         try {
             answer = callGorgias(mail);
-        }catch(Exception e){
+        }catch(Exception e) {
             System.err.println("Connection error: " + e.getMessage());
+            e.printStackTrace();
             runOnUiThread(new Runnable() {
-              @Override
-              public void run() {
-                  toastHamCheese("Connection error.");
-              }
+                @Override
+                public void run() {
+                    toastHamCheese("Connection error.");
+                }
             });
             return;
         }
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                toastHamCheese("Got answer.");
-                CheckBox c;
-                c=(CheckBox)findViewById(R.id.chkMolluscs);
-                c.setEnabled(false);
-                c=(CheckBox)findViewById(R.id.chkMeat);
-                c.setEnabled(false);
-            }
-        });
         answer=answer.replaceAll("=","");
         String[] array=answer.split("You will cook: ");
         answers=new String[array.length-1];
@@ -147,22 +148,32 @@ public class FinalView extends AppCompatActivity implements Runnable{
             });
             return;
         }
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setDeltaView(0);
-                Button b;
-                b=(Button)findViewById(R.id.btnEmail);
-                b.setVisibility(View.VISIBLE);
-            }
-        });
+        if(mail!=true)
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    toastHamCheese("Got answer.");
+                    CheckBox c;
+                    setDeltaView(0);
+                    Button b;
+                    b=(Button)findViewById(R.id.btnEmail);
+                    b.setVisibility(View.VISIBLE);
+                }
+            });
+        else
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    toastHamCheese("Got answer.");
+                    CheckBox c;
+                    c=(CheckBox)findViewById(R.id.chkMolluscs);
+                    c.setEnabled(false);
+                    c=(CheckBox)findViewById(R.id.chkMeat);
+                    c.setEnabled(false);
+                }
+            });
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_final_view);
-    }
     public void setDeltaView(int i){
         TextView t = (TextView) findViewById(R.id.txtDelta);
         t.setText((i+1)+"/"+answers.length+"\nYou will cook: "+answers[i]);
@@ -191,12 +202,17 @@ public class FinalView extends AppCompatActivity implements Runnable{
                 ((EditText) findViewById(R.id.txtMoney)).setText("1");
                 ((EditText) findViewById(R.id.txtPeople)).setText("1");
             }
+            makeVisible();
         }
         if(answerSet.size()>2 || ((meat&&legumes) || (meat&&molluscs) || (souvla&&legumes) || (souvla&&molluscs))){
             if(Math.random()>0.5)
                 ((CheckBox) findViewById(R.id.chkWantMeat)).setChecked(true);
             else
                 ((CheckBox) findViewById(R.id.chkWantMeat)).setChecked(false);
+            TextView t=(TextView)findViewById(R.id.lblWantMeat);
+            CheckBox c=(CheckBox)findViewById(R.id.chkWantMeat);
+            t.setVisibility(View.VISIBLE);
+            c.setVisibility(View.VISIBLE);
         }
         MainActivity.obj.fin=true;
         Button b;
@@ -205,7 +221,7 @@ public class FinalView extends AppCompatActivity implements Runnable{
         b=(Button)findViewById(R.id.btnMoney);
         b.setVisibility(View.GONE);
         b=(Button)findViewById(R.id.btnAnswer);
-        b.setVisibility(View.GONE);
+        b.setVisibility(View.INVISIBLE);
         writeAnswer(view);
     }
     public void giveDetails(View view){
@@ -237,7 +253,7 @@ public class FinalView extends AppCompatActivity implements Runnable{
         thread.start();
         toastHamCheese("E-mail sent.");
         Button b=(Button)findViewById(R.id.btnAnswer);
-        b.setVisibility(View.GONE);
+        b.setVisibility(View.INVISIBLE);
         b=(Button)findViewById(R.id.btnEmail);
         b.setVisibility(View.GONE);
         TextView t=(TextView)findViewById(R.id.txtDelta);
@@ -245,38 +261,41 @@ public class FinalView extends AppCompatActivity implements Runnable{
     }
     public void writeAnswer(View view) {
         EditText e = (EditText) findViewById(R.id.txtPeople);
-        Button b=(Button)findViewById(R.id.btnEmail);
-        b.setVisibility(View.VISIBLE);
-        TextView t=(TextView)findViewById(R.id.txtDelta);
-        t.setVisibility(View.VISIBLE);
+        Button b;
+        CheckBox chk;
+        chk=(CheckBox)findViewById(R.id.chkMeat);
+        chk.setEnabled(false);
+        chk=(CheckBox)findViewById(R.id.chkMolluscs);
+        chk.setEnabled(false);
         if ((e.getVisibility() == View.VISIBLE) && prevent()) {
             toastHamCheese("Fill the text fields.");
             return;
         }
+        b=(Button)findViewById(R.id.btnAnswer);
+        b.setVisibility(View.INVISIBLE);
+        b=(Button)findViewById(R.id.btnEmail);
+        b.setVisibility(View.VISIBLE);
+        TextView t=(TextView)findViewById(R.id.txtDelta);
+        t.setVisibility(View.VISIBLE);
         mail = false;
         Thread thread = new Thread(this);
         thread.start();
         gotOneAnswer=true;
         if(MainActivity.obj.fin==true) {
             b = (Button) findViewById(R.id.btnAnswer);
-            b.setVisibility(View.GONE);
-            t=(TextView)findViewById(R.id.lblpeople);
-            t.setVisibility(View.GONE);
-            t=(TextView)findViewById(R.id.lblmoney);
-            t.setVisibility(View.GONE);
-            t=(TextView)findViewById(R.id.lblWantMeat);
-            t.setVisibility(View.GONE);
+            b.setEnabled(false);
             e=(EditText)findViewById(R.id.txtPeople);
-            e.setVisibility(View.GONE);
+            e.setEnabled(false);
             e=(EditText)findViewById(R.id.txtMoney);
-            e.setVisibility(View.GONE);
-            CheckBox chk=(CheckBox)findViewById(R.id.chkWantMeat);
-            chk.setVisibility(View.GONE);
+            e.setEnabled(false);
+            chk=(CheckBox)findViewById(R.id.chkWantMeat);
+            chk.setEnabled(false);
         }
     }
     public void exit(View view) {
          finish();
          System.exit(0);
+         MainActivity.obj.fin=false;
     }
 
     public boolean prevent(){
@@ -330,14 +349,9 @@ public class FinalView extends AppCompatActivity implements Runnable{
         b=(Button) findViewById((R.id.btnMoney));
         b.setVisibility(View.VISIBLE);
         gotOneAnswer=false;
-        TextView p;
-        p=(TextView)findViewById((R.id.lblmeat));
-        p.setVisibility(View.GONE);
-        p=(TextView)findViewById((R.id.lblmolluscs));
-        p.setVisibility(View.GONE);
         CheckBox q=(CheckBox) findViewById((R.id.chkMeat));
-        q.setVisibility(View.GONE);
+        q.setEnabled(false);
         q=(CheckBox) findViewById((R.id.chkMolluscs));
-        q.setVisibility(View.GONE);
+        q.setEnabled(false);
     }
 }
